@@ -1,0 +1,164 @@
+/**
+ * Cryptographic Attribution Platform - Central Theme & UI Design Tokens
+ * 
+ * Design Philosophy:
+ * - Microsoft Fluent UI Design System (Acrylic, Mica, Depth, Elevation, Motion)
+ * - Typography: Nexa with clean modern sans fallback
+ * - Mode: First-class Dark and Light mode support via CSS custom properties
+ * - Transitions: Minimal, smooth, cubic-bezier micro-animations
+ */
+
+@import url('https://fonts.cdnfonts.com/css/nexa-bold');
+
+:root {
+  /* Typography */
+  --font-family-base: 'Nexa', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'Cascadia Code', 'Fira Code', Consolas, 'SF Mono', monospace;
+
+  /* Type Scale */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-md: 1.125rem;   /* 18px */
+  --font-size-lg: 1.25rem;    /* 20px */
+  --font-size-xl: 1.5rem;     /* 24px */
+  --font-size-2xl: 2rem;      /* 32px */
+  --font-size-3xl: 2.5rem;    /* 40px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Spacing Scale */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Corner Radii (Fluent UI 2.0 standards) */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Motion & Timing */
+  --ease-fluent: cubic-bezier(0.1, 0.9, 0.2, 1.0);
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --transition-fast: 150ms var(--ease-fluent);
+  --transition-normal: 250ms var(--ease-fluent);
+  --transition-slow: 400ms var(--ease-fluent);
+}
+
+/* ==========================================================================
+   Light Mode Tokens (Fluent Light / Mica)
+   ========================================================================== */
+:root, [data-theme="light"] {
+  --bg-canvas: #f3f3f3;
+  --bg-surface: #ffffff;
+  --bg-surface-secondary: #f9f9f9;
+  --bg-surface-tertiary: #f0f0f0;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-acrylic: rgba(255, 255, 255, 0.75);
+
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0, 0, 0, 0.24);
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #5c5c5c;
+  --text-tertiary: #8a8a8a;
+  --text-on-accent: #ffffff;
+
+  /* Fluent Accent Palette (Electric Cyan / Cobalt Security Accent) */
+  --accent-default: #0066cc;
+  --accent-hover: #0052a3;
+  --accent-pressed: #003d7a;
+  --accent-subtle: rgba(0, 102, 204, 0.1);
+  --accent-glow: rgba(0, 102, 204, 0.25);
+
+  /* Status Tokens */
+  --status-success: #107c10;
+  --status-success-bg: rgba(16, 124, 16, 0.1);
+  --status-warning: #b7791f;
+  --status-warning-bg: rgba(183, 121, 31, 0.1);
+  --status-danger: #c42b1c;
+  --status-danger-bg: rgba(196, 43, 28, 0.1);
+  --status-info: #0078d4;
+  --status-info-bg: rgba(0, 120, 212, 0.1);
+
+  /* Fluent Elevation / Shadows */
+  --shadow-card: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.08), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.04);
+  --shadow-flyout: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.12), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.08);
+  --shadow-dialog: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.16), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   Dark Mode Tokens (Fluent Dark / Mica Alt)
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg-canvas: #0f1115;
+  --bg-surface: #181b22;
+  --bg-surface-secondary: #21252f;
+  --bg-surface-tertiary: #2a2f3c;
+  --bg-card: rgba(24, 27, 34, 0.85);
+  --bg-acrylic: rgba(24, 27, 34, 0.72);
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.24);
+
+  --text-primary: #f5f6f8;
+  --text-secondary: #9aa0a6;
+  --text-tertiary: #6b7280;
+  --text-on-accent: #ffffff;
+
+  /* Fluent Dark Accent */
+  --accent-default: #4cc2ff;
+  --accent-hover: #33b1f5;
+  --accent-pressed: #1ba0e8;
+  --accent-subtle: rgba(76, 194, 255, 0.12);
+  --accent-glow: rgba(76, 194, 255, 0.3);
+
+  /* Status Tokens */
+  --status-success: #6ccb5f;
+  --status-success-bg: rgba(108, 203, 95, 0.15);
+  --status-warning: #fce100;
+  --status-warning-bg: rgba(252, 225, 0, 0.12);
+  --status-danger: #ff99a4;
+  --status-danger-bg: rgba(255, 153, 164, 0.15);
+  --status-info: #60cdff;
+  --status-info-bg: rgba(96, 205, 255, 0.15);
+
+  /* Fluent Elevation / Shadows in Dark Mode */
+  --shadow-card: 0 4px 12px 0 rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(255, 255, 255, 0.05);
+  --shadow-flyout: 0 12px 28px 0 rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.08);
+  --shadow-dialog: 0 32px 64px 0 rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   Global Reset & Base Style Rules
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color var(--transition-normal),
+              border-color var(--transition-normal),
+              color var(--transition-normal);
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--bg-canvas);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}

@@ -1,0 +1,284 @@
+/**
+ * Cryptographic Attribution Platform - Fluent UI Component Stylesheet
+ */
+
+/* ==========================================================================
+   App Shell & Acrylic Containers
+   ========================================================================== */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.acrylic-nav {
+  width: 280px;
+  background: var(--bg-acrylic);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg);
+  gap: var(--space-lg);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl);
+  gap: var(--space-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Header Bar
+   ========================================================================== */
+.fluent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-title-group h1 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.app-title-group p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-2xs);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* ==========================================================================
+   Theme Switcher Toggle
+   ========================================================================== */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-card);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--bg-surface-secondary);
+  border-color: var(--accent-default);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Navigation Items
+   ========================================================================== */
+.nav-section-title {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-xs);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--bg-surface-secondary);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--accent-subtle);
+  color: var(--accent-default);
+  border-color: var(--accent-glow);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ==========================================================================
+   Fluent UI Cards & Panels
+   ========================================================================== */
+.fluent-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.fluent-card:hover {
+  box-shadow: var(--shadow-flyout);
+  border-color: var(--border-default);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ==========================================================================
+   Security & Protocol Badges
+   ========================================================================== */
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+}
+
+.badge-crypto {
+  background: var(--accent-subtle);
+  color: var(--accent-default);
+  border-color: var(--accent-glow);
+}
+
+.badge-success {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+
+.badge-warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+}
+
+.badge-info {
+  background: var(--status-info-bg);
+  color: var(--status-info);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* ==========================================================================
+   Fluent Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--accent-default);
+  color: var(--text-on-accent);
+  box-shadow: 0 2px 6px var(--accent-glow);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  background: var(--accent-pressed);
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-surface-secondary);
+  border-color: var(--accent-default);
+}
+
+/* ==========================================================================
+   Audit Grids & Code Blocks
+   ========================================================================== */
+.code-preview {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  background: var(--bg-surface-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  overflow-x: auto;
+  color: var(--text-primary);
+}
+
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    flex-direction: column;
+  }
+  .acrylic-nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}

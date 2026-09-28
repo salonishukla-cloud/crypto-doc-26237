@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.confidential.docs/schemas/decryption_event.json",
+  "title": "DecryptionEvent",
+  "description": "Immutable decryption provenance event contract signed by recipient using ML-DSA",
+  "type": "object",
+  "required": [
+    "event_id",
+    "document_id",
+    "recipient_id",
+    "session_id",
+    "watermark_id",
+    "timestamp",
+    "watermark_hash",
+    "signature_algorithm",
+    "signature"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique UUIDv4 identifying this specific decryption event"
+    },
+    "document_id": {
+      "type": "string",
+      "description": "Canonical identifier or SHA-256 hash of the confidential source document"
+    },
+    "recipient_id": {
+      "type": "string",
+      "description": "Public identifier / fingerprint of authorized recipient identity"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Decryption session identifier bound to local authentication state"
+    },
+    "watermark_id": {
+      "type": "string",
+      "description": "Unique identifier of the forensic watermark embedded into the decrypted instance"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 / ISO 8601 UTC timestamp of the decryption operation"
+    },
+    "watermark_hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "Hex-encoded SHA-256 hash of the raw watermark payload bytes"
+    },
+    "signature_algorithm": {
+      "type": "string",
+      "enum": ["ML-DSA"],
+      "description": "Post-quantum digital signature algorithm used for non-repudiation"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Base64 or hex-encoded ML-DSA signature over canonical serialization of event fields"
+    }
+  }
+}

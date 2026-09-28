@@ -1,0 +1,21 @@
+[package]
+name = "pqcrypto"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+shared = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+ciborium = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+hex = { workspace = true }
+uuid = { workspace = true }
+sha2 = { workspace = true }
+
+[dev-dependencies]
+shared = { workspace = true }
