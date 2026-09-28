@@ -27,4 +27,8 @@ anyhow = "1.0"
 uuid = { version = "1.6", features = ["v4", "serde"] }
 hex = "0.4"
 sha2 = "0.10"
+aes-gcm = "0.10"
+rand = "0.8"
+zeroize = { version = "1.7", features = ["derive"] }
+hkdf = "0.12"
 shared = { path = "./shared" }

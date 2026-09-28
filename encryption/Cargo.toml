@@ -14,6 +14,11 @@ anyhow = { workspace = true }
 hex = { workspace = true }
 uuid = { workspace = true }
 sha2 = { workspace = true }
+aes-gcm = { workspace = true }
+rand = { workspace = true }
+zeroize = { workspace = true }
+hkdf = { workspace = true }
+chrono = { workspace = true }
 
 [dev-dependencies]
 shared = { workspace = true }
