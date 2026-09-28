@@ -1,61 +1,81 @@
-//! # Member 1 — Encryption Module
+//! # Secure Document Encryption & Post-Quantum Key Management
 //!
-//! Owns:
-//! - AES-256-GCM symmetric authenticated encryption
-//! - ML-KEM post-quantum key establishment
-//! - Key Management
-//! - Document Packaging
+//! **Module Owner**: Member 1 (Encryption)
 //!
-//! Required API Contract:
-//! - `encrypt_document()`
-//! - `decrypt_document()`
-//! - `protect_document_key()`
+//! Provides production-grade authenticated document encryption with AES-256-GCM,
+//! multi-recipient Post-Quantum key establishment with ML-KEM-768 (FIPS 203),
+//! recipient key management with automatic memory zeroization, and canonical packaging.
 
-pub mod cipher;
-pub mod kem;
+pub mod decryption;
+pub mod encryption;
+pub mod errors;
+pub mod key_manager;
 pub mod package;
-pub mod types;
 
-pub use cipher::SymmetricCipher;
-pub use kem::KemEngine;
-pub use package::DocumentPackager;
-pub use types::*;
+pub use decryption::{decrypt_document, DecryptionRequest, DecryptionResult};
+pub use encryption::{encrypt_document, protect_document_key, EncryptionRequest, RecipientKeyInput};
+pub use errors::EncryptionError;
+pub use key_manager::{
+    generate_recipient_keys, generate_recipient_keys_with_version, load_key_pair,
+    RecipientKeyDescriptor, RecipientKeyPair, ML_KEM_768_CIPHERTEXT_SIZE,
+    ML_KEM_768_PUBLIC_KEY_SIZE, ML_KEM_768_SECRET_KEY_SIZE,
+};
+pub use package::{
+    deserialize_package, load_package_from_file, save_package_to_file, serialize_package,
+    validate_package, EncryptedDocumentPackage, PackageBuilder, RecipientKEMEnvelope,
+};
 
-use shared::models::{EncryptedDocumentPackage, RecipientKEMEnvelope};
-
-/// Primary API contract for Member 1 (Encryption).
+/// Trait implementation providing object-oriented access to Encryption services.
 pub trait EncryptionService {
-    /// Encrypts a confidential document for one or more authorized recipients.
-    ///
-    /// 1. Generates a random 256-bit symmetric Document Encryption Key (DEK).
-    /// 2. Encrypts the plaintext PDF using AES-256-GCM.
-    /// 3. Protects the DEK for each recipient using `protect_document_key()` via ML-KEM.
-    /// 4. Assembles and returns the sealed `EncryptedDocumentPackage`.
     fn encrypt_document(
         &self,
         request: EncryptionRequest,
     ) -> Result<EncryptedDocumentPackage, EncryptionError>;
 
-    /// Decrypts an encrypted document package for an authenticated recipient.
-    ///
-    /// 1. Locates the recipient's KEM envelope inside the package.
-    /// 2. Decapsulates the shared secret using the recipient's ML-KEM secret key.
-    /// 3. Unwraps the symmetric DEK.
-    /// 4. Decrypts and authenticates the document ciphertext using AES-256-GCM.
-    /// 5. Returns the raw plaintext PDF and established session identifier.
     fn decrypt_document(
         &self,
         request: DecryptionRequest,
     ) -> Result<DecryptionResult, EncryptionError>;
 
-    /// Protects a symmetric Document Encryption Key (DEK) for a specific recipient
-    /// using ML-KEM post-quantum key encapsulation.
-    ///
-    /// Produces a `RecipientKEMEnvelope` containing the encapsulated key and wrapped DEK.
     fn protect_document_key(
         &self,
         recipient_id: &str,
         recipient_kem_public_key: &[u8],
         dek: &[u8; 32],
     ) -> Result<RecipientKEMEnvelope, EncryptionError>;
+}
+
+/// Default implementation of the `EncryptionService` trait.
+#[derive(Debug, Default, Clone)]
+pub struct StandardEncryptionService;
+
+impl StandardEncryptionService {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl EncryptionService for StandardEncryptionService {
+    fn encrypt_document(
+        &self,
+        request: EncryptionRequest,
+    ) -> Result<EncryptedDocumentPackage, EncryptionError> {
+        encryption::encrypt_document(request)
+    }
+
+    fn decrypt_document(
+        &self,
+        request: DecryptionRequest,
+    ) -> Result<DecryptionResult, EncryptionError> {
+        decryption::decrypt_document(request)
+    }
+
+    fn protect_document_key(
+        &self,
+        recipient_id: &str,
+        recipient_kem_public_key: &[u8],
+        dek: &[u8; 32],
+    ) -> Result<RecipientKEMEnvelope, EncryptionError> {
+        encryption::protect_document_key(recipient_id, recipient_kem_public_key, dek)
+    }
 }
