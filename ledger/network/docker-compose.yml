@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Node 1: Primary Air-Gapped Key Custody Validator
+  ledger-node-1:
+    image: alpine:latest
+    container_name: ledger-node-1
+    command: ["echo", "Ledger Node 1 Initialized"]
+    environment:
+      - NODE_ID=node-1
+      - NODE_PORT=8001
+      - CLUSTER_PEERS=node-2:8002,node-3:8003,node-4:8004
+      - AIRGAP_MODE=true
+    ports:
+      - "8001:8001"
+    volumes:
+      - node1_data:/var/ledger/data
+    networks:
+      ledger_airgap_net:
+        ipv4_address: 172.28.0.11
+
+  # Node 2: Document Ingestion & Verification Node
+  ledger-node-2:
+    image: alpine:latest
+    container_name: ledger-node-2
+    command: ["echo", "Ledger Node 2 Initialized"]
+    environment:
+      - NODE_ID=node-2
+      - NODE_PORT=8002
+      - CLUSTER_PEERS=node-1:8001,node-3:8003,node-4:8004
+      - AIRGAP_MODE=true
+    ports:
+      - "8002:8002"
+    volumes:
+      - node2_data:/var/ledger/data
+    networks:
+      ledger_airgap_net:
+        ipv4_address: 172.28.0.12
+
+  # Node 3: Forensic Attribution Analysis Node
+  ledger-node-3:
+    image: alpine:latest
+    container_name: ledger-node-3
+    command: ["echo", "Ledger Node 3 Initialized"]
+    environment:
+      - NODE_ID=node-3
+      - NODE_PORT=8003
+      - CLUSTER_PEERS=node-1:8001,node-2:8002,node-4:8004
+      - AIRGAP_MODE=true
+    ports:
+      - "8003:8003"
+    volumes:
+      - node3_data:/var/ledger/data
+    networks:
+      ledger_airgap_net:
+        ipv4_address: 172.28.0.13
+
+  # Node 4: Offline Audit & Archival Node
+  ledger-node-4:
+    image: alpine:latest
+    container_name: ledger-node-4
+    command: ["echo", "Ledger Node 4 Initialized"]
+    environment:
+      - NODE_ID=node-4
+      - NODE_PORT=8004
+      - CLUSTER_PEERS=node-1:8001,node-2:8002,node-3:8003
+      - AIRGAP_MODE=true
+    ports:
+      - "8004:8004"
+    volumes:
+      - node4_data:/var/ledger/data
+    networks:
+      ledger_airgap_net:
+        ipv4_address: 172.28.0.14
+
+volumes:
+  node1_data:
+  node2_data:
+  node3_data:
+  node4_data:
+
+networks:
+  ledger_airgap_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

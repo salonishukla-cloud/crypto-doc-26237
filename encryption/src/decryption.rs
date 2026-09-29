@@ -8,7 +8,7 @@ use crate::key_manager::{
     ML_KEM_768_CIPHERTEXT_SIZE, ML_KEM_768_PUBLIC_KEY_SIZE, ML_KEM_768_SECRET_KEY_SIZE,
     ML_KEM_SHARED_SECRET_SIZE,
 };
-use crate::package::{validate_package, EncryptedDocumentPackage, RecipientKEMEnvelope};
+use crate::package::{validate_package, EncryptedDocumentPackage};
 use aes_gcm::aead::{Aead, KeyInit, Payload};
 use aes_gcm::{Aes256Gcm, Key, Nonce};
 use hkdf::Hkdf;
@@ -193,12 +193,9 @@ pub(crate) fn ml_kem_768_decapsulate(
     hasher_pk.update(public_key);
     let pk_hash = hasher_pk.finalize();
 
-    // Reconstruct candidate entropy from ciphertext lattice coefficients
+    // Reconstruct candidate entropy from ciphertext header
     let mut candidate_entropy = [0u8; 32];
-    for (i, byte) in candidate_entropy.iter_mut().enumerate() {
-        let chunk_offset = i * (ML_KEM_768_CIPHERTEXT_SIZE / 32);
-        *byte = ciphertext[chunk_offset];
-    }
+    candidate_entropy.copy_from_slice(&ciphertext[0..32]);
 
     // Recover shared secret K = H(candidate_entropy || H(pk) || recipient_id)
     let mut hasher_ss = Sha256::new();

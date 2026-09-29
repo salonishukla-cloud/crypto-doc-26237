@@ -25,6 +25,7 @@ pub trait LedgerClient {
 
 ## Directory Structure
 
+
 ```text
 ledger/
 ├── Cargo.toml

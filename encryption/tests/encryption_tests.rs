@@ -1,6 +1,6 @@
 //! Comprehensive Unit and Security Tests for Module 1 (Encryption & Key Management).
 
-use encryption::*;
+use ::encryption::*;
 use std::fs;
 
 #[test]

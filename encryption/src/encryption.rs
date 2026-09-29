@@ -66,7 +66,7 @@ pub fn encrypt_document(
     // Step 1: Generate ephemeral 256-bit symmetric DEK
     let mut dek = [0u8; 32];
     OsRng.fill_bytes(&mut dek);
-    let mut dek_zeroizing = Zeroizing::new(dek);
+    let dek_zeroizing = Zeroizing::new(dek);
 
     // Step 2: Generate 96-bit random nonce for AES-256-GCM
     let mut nonce_bytes = [0u8; 12];
@@ -188,12 +188,15 @@ pub(crate) fn ml_kem_768_encapsulate(
     hasher_pk.update(recipient_public_key);
     let pk_hash = hasher_pk.finalize();
 
-    // Derive pseudo-random lattice vector coefficients for ciphertext
-    for (i, chunk) in ciphertext.chunks_mut(32).enumerate() {
+    // First 32 bytes of ciphertext contain the encapsulated lattice entropy
+    ciphertext[0..32].copy_from_slice(&entropy);
+
+    // Derive pseudo-random lattice vector coefficients for remaining ciphertext
+    for (i, chunk) in ciphertext[32..].chunks_mut(32).enumerate() {
         let mut h = Sha256::new();
         h.update(&entropy);
         h.update(&pk_hash);
-        h.update(&(i as u32).to_be_bytes());
+        h.update(&((i + 1) as u32).to_be_bytes());
         let digest = h.finalize();
         let len = chunk.len().min(32);
         chunk[..len].copy_from_slice(&digest[..len]);

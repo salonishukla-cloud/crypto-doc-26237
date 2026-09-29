@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptographic Attribution & Forensic Provenance Platform</title>
+  <meta name="description" content="Post-quantum offline air-gapped confidential document distribution with immutable forensic decryption provenance. AES-256-GCM, ML-KEM-768, ML-DSA-65, Permissioned DLT.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ── HEADER ──────────────────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="header-logo">🔐</div>
+      <div class="header-brand-text">
+        <div class="header-title">Cryptographic Attribution Platform</div>
+        <div class="header-subtitle">FIPS 203 · FIPS 204 · Air-Gapped · Immutable Provenance</div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="api-status-pill" id="api-status-pill">
+        <span class="api-dot"></span>
+        <span id="api-status-text">Connecting to API…</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="theme-btn" id="theme-toggle-btn" onclick="toggleTheme()">
+        <span id="theme-icon">☀️</span>
+        <span id="theme-label">Light Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── APP BODY ────────────────────────────────────────────────── -->
+  <div class="app-body">
+
+    <!-- SIDEBAR -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-nav">
+
+        <div class="nav-section-label">Platform</div>
+        <button class="nav-item active" data-section="overview" id="nav-overview">
+          <span class="nav-icon">🏛️</span>
+          <span class="nav-label">Architecture Overview</span>
+        </button>
+
+        <div class="nav-section-label">Operations</div>
+        <button class="nav-item" data-section="sender" id="nav-sender">
+          <span class="nav-icon">🔐</span>
+          <span class="nav-label">Sender Studio</span>
+          <span class="nav-badge">Encrypt</span>
+        </button>
+        <button class="nav-item" data-section="recipient" id="nav-recipient">
+          <span class="nav-icon">🔓</span>
+          <span class="nav-label">Recipient Terminal</span>
+          <span class="nav-badge">Decrypt</span>
+        </button>
+
+        <div class="nav-section-label">Investigation</div>
+        <button class="nav-item" data-section="forensics" id="nav-forensics">
+          <span class="nav-icon">🔬</span>
+          <span class="nav-label">Forensic Workstation</span>
+          <span class="nav-badge warn">Verify</span>
+        </button>
+
+        <div class="nav-section-label">Infrastructure</div>
+        <button class="nav-item" data-section="ledger" id="nav-ledger">
+          <span class="nav-icon">⛓️</span>
+          <span class="nav-label">4-Node Ledger</span>
+          <span class="nav-badge">DLT</span>
+        </button>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-modules">
+          <div class="module-chip">AES-256-GCM</div>
+          <div class="module-chip">ML-KEM-768</div>
+          <div class="module-chip">ML-DSA-65</div>
+          <div class="module-chip">SHA-256 Merkle</div>
+          <div class="module-chip">FIPS 203/204</div>
+        </div>
+        <div class="sidebar-version">v0.1.0-postquantum · Air-Gapped Mode</div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="app-main">
+
+      <!-- ── SECTION 1: ARCHITECTURE OVERVIEW ──────────────────── -->
+      <section id="section-overview" class="content-section active">
+
+        <div class="section-header">
+          <div class="section-title">Architecture Overview</div>
+          <div class="section-sub">5-module distributed engineering platform for post-quantum confidential document provenance</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 20px;">
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon green">🔓</div>
+              <div class="card-title-group">
+                <div class="card-title">Decryption & Provenance Workflow</div>
+                <div class="card-desc">5-step pipeline executed on recipient air-gapped workstation</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="workflow-list">
+                <div class="workflow-step">
+                  <div class="step-num">1</div>
+                  <div class="step-info">
+                    <strong>Recipient Authentication</strong>
+                    <p>Air-gapped identity verification with ML-KEM-768 keypair</p>
+                  </div>
+                </div>
+                <div class="workflow-step">
+                  <div class="step-num">2</div>
+                  <div class="step-info">
+                    <strong>AES-256-GCM Decryption</strong>
+                    <p>De-encapsulate DEK via ML-KEM-768, decrypt authenticated payload (Module 1)</p>
+                  </div>
+                </div>
+                <div class="workflow-step">
+                  <div class="step-num">3</div>
+                  <div class="step-info">
+                    <strong>Forensic Watermark Embedding</strong>
+                    <p>Generate 142-bit watermark across 4 invisible channels (Module 2)</p>
+                  </div>
+                </div>
+                <div class="workflow-step">
+                  <div class="step-num">4</div>
+                  <div class="step-info">
+                    <strong>ML-DSA-65 Event Signing</strong>
+                    <p>Create canonical RFC 8785 JSON event, sign with FIPS 204 private key (Module 3)</p>
+                  </div>
+                </div>
+                <div class="workflow-step">
+                  <div class="step-num">5</div>
+                  <div class="step-info">
+                    <strong>Immutable DLT Ingestion</strong>
+                    <p>Record signed event on 4-node ledger with SHA-256 Merkle proof (Module 4)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon amber">🔬</div>
+              <div class="card-title-group">
+                <div class="card-title">Forensic Leak Attribution Workflow</div>
+                <div class="card-desc">Conclusive cryptographic attribution from suspected leaked document</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="workflow-list">
+                <div class="workflow-step forensic">
+                  <div class="step-num">1</div>
+                  <div class="step-info">
+                    <strong>Leaked Document Ingestion</strong>
+                    <p>Extract watermark signals across XMP, zero-width, homoglyph, and spectrum channels</p>
+                  </div>
+                </div>
+                <div class="workflow-step forensic">
+                  <div class="step-num">2</div>
+                  <div class="step-info">
+                    <strong>Reverse DLT Lookup</strong>
+                    <p>Query 4-node permissioned ledger by extracted watermark hash</p>
+                  </div>
+                </div>
+                <div class="workflow-step forensic">
+                  <div class="step-num">3</div>
+                  <div class="step-info">
+                    <strong>ML-DSA Cryptographic Proof</strong>
+                    <p>Verify post-quantum digital signature on canonical event bytes</p>
+                  </div>
+                </div>
+                <div class="workflow-step forensic">
+                  <div class="step-num">4</div>
+                  <div class="step-info">
+                    <strong>Merkle Tree Audit</strong>
+                    <p>Re-evaluate block header hash continuity and cryptographic inclusion</p>
+                  </div>
+                </div>
+                <div class="workflow-step forensic">
+                  <div class="step-num">5</div>
+                  <div class="step-info">
+                    <strong>Legally Admissible Dossier</strong>
+                    <p>Generate conclusive attribution report with mathematical certainty</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Module Matrix -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon info">🧩</div>
+            <div class="card-title-group">
+              <div class="card-title">Distributed Engineering Module Matrix</div>
+              <div class="card-desc">5 independent Git branches — parallel development with shared schema</div>
+            </div>
+            <span class="badge badge-green"><span class="badge-dot"></span> 5 Modules Active</span>
+          </div>
+          <div class="card-body">
+            <div class="grid-3" style="gap:14px;">
+              <div class="arch-card">
+                <div class="arch-num">MODULE 01</div>
+                <div class="arch-name">Encryption Engine</div>
+                <div class="arch-tech">AES-256-GCM · ML-KEM-768 · Key Management · DEK Encapsulation</div>
+                <div class="module-tags">
+                  <span class="module-tag">encryption/</span>
+                </div>
+                <div class="arch-branch" style="margin-top:10px;">feature/member1-encryption</div>
+              </div>
+              <div class="arch-card">
+                <div class="arch-num">MODULE 02</div>
+                <div class="arch-name">Forensic Watermark</div>
+                <div class="arch-tech">142-bit Payload · 4 Channels · XMP · Zero-Width · Homoglyph</div>
+                <div class="module-tags">
+                  <span class="module-tag">watermark/</span>
+                </div>
+                <div class="arch-branch" style="margin-top:10px;">feature/member2-watermark</div>
+              </div>
+              <div class="arch-card">
+                <div class="arch-num">MODULE 03</div>
+                <div class="arch-name">PQ Crypto & Identity</div>
+                <div class="arch-tech">ML-DSA-65 · FIPS 204 · RFC 8785 · CBOR · Event Signing</div>
+                <div class="module-tags">
+                  <span class="module-tag">pqcrypto/</span>
+                </div>
+                <div class="arch-branch" style="margin-top:10px;">feature/member3-pqcrypto</div>
+              </div>
+              <div class="arch-card">
+                <div class="arch-num">MODULE 04</div>
+                <div class="arch-name">Permissioned DLT</div>
+                <div class="arch-tech">4-Node Local Chain · SHA-256 Merkle · Append-Only · Offline Sync</div>
+                <div class="module-tags">
+                  <span class="module-tag">ledger/</span>
+                </div>
+                <div class="arch-branch" style="margin-top:10px;">feature/member4-ledger</div>
+              </div>
+              <div class="arch-card">
+                <div class="arch-num">MODULE 05</div>
+                <div class="arch-name">Integration & UI</div>
+                <div class="arch-tech">Workflow Orchestration · REST API Bridge · Forensic Reports · Web UI</div>
+                <div class="module-tags">
+                  <span class="module-tag">integration/</span>
+                </div>
+                <div class="arch-branch" style="margin-top:10px;">feature/member5-integration</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── SECTION 2: SENDER STUDIO ──────────────────────────── -->
+      <section id="section-sender" class="content-section">
+
+        <div class="section-header">
+          <div class="section-title">Sender Studio — Document Encryption</div>
+          <div class="section-sub">Package confidential documents with AES-256-GCM + ML-KEM-768 for authorized recipients</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon green">🔐</div>
+            <div class="card-title-group">
+              <div class="card-title">Encrypt Document Package (Module 1)</div>
+              <div class="card-desc">Upload a PDF or paste text content, then encrypt for multiple recipients</div>
+            </div>
+            <span class="badge badge-green">AES-256-GCM + ML-KEM-768</span>
+          </div>
+          <div class="card-body">
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="sender-doc-id">Document Identifier</label>
+                <input type="text" id="sender-doc-id" class="input-field" value="DOC-DEFENCE-QUANTUM-2026" placeholder="DOC-XXXX-XXXX">
+              </div>
+              <div class="form-group">
+                <label for="sender-recipients">Authorized Recipients (comma-separated)</label>
+                <input type="text" id="sender-recipients" class="input-field" value="officer.shukla@hq.defence.gov, analyst.rao@secure.org">
+              </div>
+              <div class="form-group full-width">
+                <label for="sender-content">Document Content / Plain-text Payload</label>
+                <textarea id="sender-content" class="textarea-field" rows="3" placeholder="Enter confidential document text…">TOP SECRET CLASSIFIED DISPATCH // DEFENCE RESEARCH ENCLAVE // AIR-GAP AUTHORIZATION PROTOCOL V4.2</textarea>
+              </div>
+            </div>
+
+            <div class="form-group mt-16">
+              <label>Or Upload a PDF Document</label>
+              <div class="drop-zone" id="sender-drop-zone">
+                <input type="file" id="sender-pdf-input" accept=".pdf,.txt" onchange="handleSenderFile(this)">
+                <span class="drop-zone-icon">📄</span>
+                <span class="drop-zone-label">Drag & drop PDF here, or click to browse</span>
+                <span class="drop-zone-sub">Supports PDF and TXT files • File is processed locally, never leaves the air-gap</span>
+              </div>
+              <div class="file-info mt-8" id="sender-file-info" style="display:none;"></div>
+            </div>
+
+            <div class="flex mt-20" style="gap:10px;">
+              <button class="btn btn-primary" id="btn-encrypt" onclick="runEncrypt()">
+                <span>🔐</span> Encrypt Document Package
+              </button>
+              <button class="btn btn-secondary" onclick="resetSection('sender')">Reset</button>
+            </div>
+
+            <div class="output-box hidden" id="sender-output">
+              <div class="output-header">
+                <div class="flex items-center" style="gap:10px;">
+                  <div class="output-dots"><span></span><span></span><span></span></div>
+                  <span>Encrypted Package Manifest</span>
+                </div>
+                <div class="flex" style="gap:8px;">
+                  <span class="badge badge-green">AES-256-GCM</span>
+                  <span class="badge badge-green">ML-KEM-768</span>
+                  <button class="btn btn-sm btn-secondary" onclick="copyContent('sender-manifest-json')">Copy</button>
+                </div>
+              </div>
+              <pre id="sender-manifest-json" class="code-block"></pre>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── SECTION 3: RECIPIENT TERMINAL ─────────────────────── -->
+      <section id="section-recipient" class="content-section">
+
+        <div class="section-header">
+          <div class="section-title">Recipient Terminal — Decrypt & Sign</div>
+          <div class="section-sub">Authenticate, decrypt, embed watermark, sign with ML-DSA-65, commit to DLT</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon green">🔓</div>
+            <div class="card-title-group">
+              <div class="card-title">Full Decryption & Provenance Pipeline</div>
+              <div class="card-desc">Executes Modules 1→2→3→4 in sequence on the air-gapped workstation</div>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="recipient-select">Authenticated Recipient Identity</label>
+                <select id="recipient-select" class="select-field">
+                  <option value="officer.shukla@hq.defence.gov">officer.shukla@hq.defence.gov — Officer S. Shukla</option>
+                  <option value="analyst.rao@secure.org">analyst.rao@secure.org — Analyst K. Rao</option>
+                  <option value="agent.dave@gov.in">agent.dave@gov.in — Special Agent Dave</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="recipient-session">Session ID</label>
+                <input type="text" id="recipient-session" class="input-field" value="SESS-AIRGAP-8891">
+              </div>
+              <div class="form-group full-width">
+                <label for="recipient-doc-id">Document ID to Decrypt</label>
+                <input type="text" id="recipient-doc-id" class="input-field" value="DOC-DEFENCE-QUANTUM-2026">
+              </div>
+            </div>
+
+            <div class="flex mt-20" style="gap:10px;">
+              <button class="btn btn-primary" id="btn-decrypt" onclick="runDecrypt()">
+                <span>⚡</span> Execute Full Decryption & Provenance
+              </button>
+              <button class="btn btn-secondary" onclick="resetSection('recipient')">Reset</button>
+            </div>
+
+            <div class="output-box hidden" id="recipient-output">
+              <div class="output-header">
+                <div class="flex items-center" style="gap:10px;">
+                  <div class="output-dots"><span></span><span></span><span></span></div>
+                  <span>Pipeline Execution Log</span>
+                </div>
+              </div>
+              <div style="padding:16px;">
+                <div class="pipeline-list" id="recipient-pipeline"></div>
+              </div>
+              <div class="grid-2" style="padding:0 16px 16px; gap:14px;">
+                <div>
+                  <label style="margin-bottom:8px;display:block;">Signed Decryption Event (JSON)</label>
+                  <div class="output-box" style="margin:0;">
+                    <div class="output-header">
+                      <span>ML-DSA-65 Signed Event</span>
+                      <button class="btn btn-sm btn-secondary" onclick="copyContent('recipient-event-json')">Copy</button>
+                    </div>
+                    <pre id="recipient-event-json" class="code-block" style="max-height:240px;"></pre>
+                  </div>
+                </div>
+                <div>
+                  <label style="margin-bottom:8px;display:block;">Ledger Merkle Receipt</label>
+                  <div class="output-box" style="margin:0;">
+                    <div class="output-header">
+                      <span>DLT Block Receipt</span>
+                      <button class="btn btn-sm btn-secondary" onclick="copyContent('recipient-receipt-json')">Copy</button>
+                    </div>
+                    <pre id="recipient-receipt-json" class="code-block" style="max-height:240px;"></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── SECTION 4: FORENSIC WORKSTATION ───────────────────── -->
+      <section id="section-forensics" class="content-section">
+
+        <div class="section-header">
+          <div class="section-title">Forensic Workstation — Leak Attribution</div>
+          <div class="section-sub">Extract watermark, verify ML-DSA signature, audit DLT chain, generate conclusive dossier</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon amber">🔬</div>
+            <div class="card-title-group">
+              <div class="card-title">Air-Gapped Forensic Attribution Engine</div>
+              <div class="card-desc">Upload the suspected leaked document or select a test scenario</div>
+            </div>
+            <span class="badge badge-amber">Attribution Workstation</span>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <label>Upload Suspected Leaked Document (PDF)</label>
+              <div class="drop-zone" id="forensics-drop-zone">
+                <input type="file" id="forensics-pdf-input" accept=".pdf,.txt" onchange="handleForensicsFile(this)">
+                <span class="drop-zone-icon">🕵️</span>
+                <span class="drop-zone-label">Drop the leaked PDF here, or click to upload</span>
+                <span class="drop-zone-sub">File is processed locally and never transmitted outside this workstation</span>
+              </div>
+              <div class="file-info mt-8" id="forensics-file-info" style="display:none;"></div>
+            </div>
+
+            <div class="form-group mt-16">
+              <label>Or Select Test Scenario</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="leak-source" value="valid" checked>
+                  <span>📄 Authentic Leaked Document — Officer Shukla (Confirmed Attribution)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="leak-source" value="tampered">
+                  <span>⚠️ Tampered / Modified Document (Integrity Failure)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="leak-source" value="unknown">
+                  <span>❓ Unwatermarked External Document (No Provenance)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex mt-20" style="gap:10px;">
+              <button class="btn btn-primary" id="btn-forensics" onclick="runForensics()">
+                <span>🔍</span> Run Forensic Verification & Attribution
+              </button>
+              <button class="btn btn-secondary" onclick="resetSection('forensics')">Reset</button>
+            </div>
+
+            <div class="output-box hidden" id="forensics-output">
+              <div class="output-header">
+                <div class="flex items-center" style="gap:10px;">
+                  <div class="output-dots"><span></span><span></span><span></span></div>
+                  <span>Forensic Attribution Dossier</span>
+                </div>
+                <button class="btn btn-sm btn-secondary" id="btn-copy-dossier" onclick="copyContent('forensic-report-pre')">Copy Dossier</button>
+              </div>
+              <div style="padding: 16px;">
+                <div class="verdict-banner" id="verdict-banner">
+                  <div class="verdict-title" id="verdict-title">CONFIRMED ATTRIBUTION</div>
+                  <div class="verdict-sub" id="verdict-sub">Awaiting analysis…</div>
+                </div>
+                <pre id="forensic-report-pre" class="code-block" style="margin-top:14px;"></pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── SECTION 5: 4-NODE LEDGER EXPLORER ─────────────────── -->
+      <section id="section-ledger" class="content-section">
+
+        <div class="section-header">
+          <div class="section-title">4-Node Permissioned Offline Ledger</div>
+          <div class="section-sub">Monitor air-gapped node status, block heights, Merkle roots, and cryptographic chain continuity</div>
+        </div>
+
+        <!-- Node Status Grid -->
+        <div class="grid-4" id="nodes-grid" style="margin-bottom:20px;">
+          <div class="node-card" id="node-card-1">
+            <div class="node-header">
+              <div class="node-led"></div>
+              <div class="node-name">Node 1 — Primary</div>
+            </div>
+            <div class="node-role">Key Custody & Validator</div>
+            <div class="node-stat">Block Height <span class="node-stat-val" id="n1-height">#–</span></div>
+            <div class="node-stat">Port <span class="node-stat-val">8001</span></div>
+            <div class="node-stat">Status <span class="node-stat-val" id="n1-status">–</span></div>
+          </div>
+          <div class="node-card" id="node-card-2">
+            <div class="node-header">
+              <div class="node-led"></div>
+              <div class="node-name">Node 2 — Ingestion</div>
+            </div>
+            <div class="node-role">Verification Enclave</div>
+            <div class="node-stat">Block Height <span class="node-stat-val" id="n2-height">#–</span></div>
+            <div class="node-stat">Port <span class="node-stat-val">8002</span></div>
+            <div class="node-stat">Status <span class="node-stat-val" id="n2-status">–</span></div>
+          </div>
+          <div class="node-card" id="node-card-3">
+            <div class="node-header">
+              <div class="node-led"></div>
+              <div class="node-name">Node 3 — Forensic</div>
+            </div>
+            <div class="node-role">Attribution Analysis</div>
+            <div class="node-stat">Block Height <span class="node-stat-val" id="n3-height">#–</span></div>
+            <div class="node-stat">Port <span class="node-stat-val">8003</span></div>
+            <div class="node-stat">Status <span class="node-stat-val" id="n3-status">–</span></div>
+          </div>
+          <div class="node-card" id="node-card-4">
+            <div class="node-header">
+              <div class="node-led"></div>
+              <div class="node-name">Node 4 — Archival</div>
+            </div>
+            <div class="node-role">Offline Audit Store</div>
+            <div class="node-stat">Block Height <span class="node-stat-val" id="n4-height">#–</span></div>
+            <div class="node-stat">Port <span class="node-stat-val">8004</span></div>
+            <div class="node-stat">Status <span class="node-stat-val" id="n4-status">–</span></div>
+          </div>
+        </div>
+
+        <!-- Block Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon info">⛓️</div>
+            <div class="card-title-group">
+              <div class="card-title">Recent Committed Blocks</div>
+              <div class="card-desc">Cryptographically chained SHA-256 block headers</div>
+            </div>
+            <div class="flex" style="gap:8px;">
+              <button class="btn btn-sm btn-secondary" onclick="refreshLedger()">↻ Refresh</button>
+              <span class="badge badge-green" id="chain-valid-badge"><span class="badge-dot"></span> Chain Valid</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Height</th>
+                    <th>Block Hash</th>
+                    <th>Previous Hash</th>
+                    <th>Merkle Root</th>
+                    <th>Validator</th>
+                    <th>Timestamp</th>
+                    <th>Txns</th>
+                  </tr>
+                </thead>
+                <tbody id="ledger-tbody">
+                  <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-3);">Loading blocks…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

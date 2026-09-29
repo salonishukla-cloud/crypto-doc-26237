@@ -31,4 +31,5 @@ aes-gcm = "0.10"
 rand = "0.8"
 zeroize = { version = "1.7", features = ["derive"] }
 hkdf = "0.12"
+hmac = "0.12"
 shared = { path = "./shared" }

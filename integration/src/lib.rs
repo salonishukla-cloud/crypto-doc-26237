@@ -1,21 +1,36 @@
-//! # Member 5 — Integration Module
+//! # Member 5 — Integration & Verification Module (`integration`)
 //!
 //! Owns:
 //! - End-to-end Decryption & Provenance Workflow orchestration
 //! - Offline forensic verification workstation
-//! - Forensic evidence report generation
-//! - UI shell and final demonstration
+//! - Forensic evidence report generation (Human-readable Markdown + Canonical JSON)
+//! - Simple Rust + HTML UI
 //!
-//! Required API Contract:
-//! - `run_decryption_workflow()`
-//! - `verify_leaked_document()`
-//! - `generate_report()`
+//! ## Required APIs:
+//! - `run_decryption_workflow(request, ledger_client)`
+//! - `verify_leaked_document(leaked_document_bytes, recipient_public_key, ledger_client)`
+//! - `generate_report(report)`
 
+#[path = "../backend/mod.rs"]
 pub mod backend;
+
+#[path = "../report.rs"]
+pub mod report;
+
+#[path = "../verification.rs"]
 pub mod verification;
 
-pub use backend::{DecryptionWorkflowRequest, DecryptionWorkflowResult, IntegrationError};
-pub use verification::ForensicEvidenceReport;
+#[path = "../workflow.rs"]
+pub mod workflow;
+
+pub use backend::IntegrationError;
+pub use report::{generate_report, ForensicEvidenceReport, ForensicVerdict};
+pub use verification::verify_leaked_document;
+pub use workflow::{
+    run_decryption_workflow, DecryptionWorkflowRequest, DecryptionWorkflowResult,
+};
+
+use ledger::PermissionedLedgerClient;
 
 /// Primary API contract for Member 5 (Integration).
 pub trait ForensicOrchestrator {
@@ -29,6 +44,7 @@ pub trait ForensicOrchestrator {
     fn run_decryption_workflow(
         &self,
         request: DecryptionWorkflowRequest,
+        ledger_client: &PermissionedLedgerClient,
     ) -> Result<DecryptionWorkflowResult, IntegrationError>;
 
     /// Forensic verification workstation entrypoint:
@@ -41,6 +57,8 @@ pub trait ForensicOrchestrator {
     fn verify_leaked_document(
         &self,
         leaked_document_bytes: &[u8],
+        recipient_dsa_public_key: &[u8],
+        ledger_client: &PermissionedLedgerClient,
     ) -> Result<ForensicEvidenceReport, IntegrationError>;
 
     /// Formats verified forensic findings into a structured legal/audit evidence report.
@@ -48,4 +66,34 @@ pub trait ForensicOrchestrator {
         &self,
         report: &ForensicEvidenceReport,
     ) -> Result<String, IntegrationError>;
+}
+
+/// Default implementation of [`ForensicOrchestrator`].
+#[derive(Debug, Default, Clone, Copy)]
+pub struct DefaultForensicOrchestrator;
+
+impl ForensicOrchestrator for DefaultForensicOrchestrator {
+    fn run_decryption_workflow(
+        &self,
+        request: DecryptionWorkflowRequest,
+        ledger_client: &PermissionedLedgerClient,
+    ) -> Result<DecryptionWorkflowResult, IntegrationError> {
+        run_decryption_workflow(request, ledger_client)
+    }
+
+    fn verify_leaked_document(
+        &self,
+        leaked_document_bytes: &[u8],
+        recipient_dsa_public_key: &[u8],
+        ledger_client: &PermissionedLedgerClient,
+    ) -> Result<ForensicEvidenceReport, IntegrationError> {
+        verify_leaked_document(leaked_document_bytes, recipient_dsa_public_key, ledger_client)
+    }
+
+    fn generate_report(
+        &self,
+        report: &ForensicEvidenceReport,
+    ) -> Result<String, IntegrationError> {
+        generate_report(report)
+    }
 }

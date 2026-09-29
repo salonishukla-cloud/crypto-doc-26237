@@ -2,7 +2,7 @@
 //!
 //! Run with: `cargo run` (inside encryption/) or `cargo run -p encryption` (from workspace root)
 
-use encryption::*;
+use ::encryption::*;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("================================================================================");
